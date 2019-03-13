@@ -1,4 +1,4 @@
-rootProject.name = 'kotlin-dsl-demo'
+rootProject.name = 'kotlin-demo'
 
 
 include('mpp')
