@@ -61,8 +61,15 @@ dependencies {
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.1.1'
 
+  def ktor_version = "1.0.1"
+  implementation "io.ktor:ktor-server-netty:$ktor_version"
+  implementation "io.ktor:ktor-html-builder:$ktor_version"
+  implementation "io.ktor:ktor-locations:$ktor_version"
+  implementation "io.ktor:ktor-jackson:$ktor_version"
+  
+  testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
 
-  compile 'com.google.guava:guava:23.3-jre'
-
-  compile "junit:junit:4.12"
+  implementation 'org.slf4j:slf4j-simple:1.7.26'
+  implementation 'com.google.guava:guava:23.3-jre'
+  implementation "junit:junit:4.12"
 }
