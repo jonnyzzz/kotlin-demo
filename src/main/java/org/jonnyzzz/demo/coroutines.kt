@@ -1,10 +1,18 @@
-package org.jonnyzzz.demo
+@file:Suppress("PackageDirectoryMismatch")
 
+package org.jonnyzzz.demo.coroutines
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -62,7 +70,32 @@ fun main() = runBlocking {
   jobs.forEach { it.join() }
 }
 
-fun main(args: Array<String>) {
-  main()
-}
 
+
+
+class MyScope : CoroutineScope {
+  private val job = Job()
+
+  override val coroutineContext: CoroutineContext
+    get() = Dispatchers.IO + job
+
+
+  fun playWithCoroutine() {
+    launch {
+      println("Hello from Coroutine")
+
+      val result = async { runHeavyTask() }
+
+      withContext(Dispatchers.Main) {
+        showResult(result.await())
+      }
+    }
+  }
+
+
+  private fun showResult(text: String) {}
+  private fun runHeavyTask() = "asbsd"
+  fun dispose() {
+    job.cancel()
+  }
+}
