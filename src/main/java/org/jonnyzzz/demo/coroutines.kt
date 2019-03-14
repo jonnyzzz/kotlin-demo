@@ -60,6 +60,16 @@ fun powers(seed: Long) = sequence {
 }
 
 fun main() = runBlocking {
+  MyScope().apply {
+    try {
+      playWithCoroutine()
+    } catch (t: Throwable) {
+      println("ERRROR")
+    }
+    playWithCoroutine()
+
+  }
+
   val jobs = List(100_000) {
     launch {
       delay(1000L)
@@ -77,7 +87,7 @@ class MyScope : CoroutineScope {
   private val job = Job()
 
   override val coroutineContext: CoroutineContext
-    get() = Dispatchers.IO + job
+    get() = Dispatchers.Default + job
 
 
   fun playWithCoroutine() {
@@ -86,7 +96,7 @@ class MyScope : CoroutineScope {
 
       val result = async { runHeavyTask() }
 
-      withContext(Dispatchers.Main) {
+      withContext(Dispatchers.IO) {
         showResult(result.await())
       }
     }
@@ -94,7 +104,7 @@ class MyScope : CoroutineScope {
 
 
   private fun showResult(text: String) {}
-  private fun runHeavyTask() = "asbsd"
+  private fun runHeavyTask() : String = throw Error("asdasd")
   fun dispose() {
     job.cancel()
   }
