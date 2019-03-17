@@ -1,4 +1,5 @@
-package org.jonnyzzz.demo
+@file:Suppress("PackageDirectoryMismatch")
+package org.jonnyzzz.demo.main
 
 
 fun main(args: Array<String>) {
