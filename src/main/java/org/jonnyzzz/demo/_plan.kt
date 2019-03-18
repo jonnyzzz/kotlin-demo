@@ -16,7 +16,9 @@ val plan = buildPlan {
   + "default parameters"
 
   + "function to pick the best hello message"
-  + "UserInfo class with nullable hello message"
+  + "UserInfo data class with nullable hello message" {
+    + "show Java POJO class"
+  }
   + "function to load all UserInfos from the database"
   + "TODO function for that one"
 
