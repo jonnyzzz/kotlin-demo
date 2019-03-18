@@ -19,5 +19,7 @@ public class JavaClientExample {
 
     final JavaClient client = builder.build();
     System.out.println("Created client is: " + client);
+
+    //TODO: add personal likes
   }
 }
