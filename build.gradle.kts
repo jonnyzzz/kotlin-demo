@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.*
 import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
@@ -22,7 +21,7 @@ tasks.withType<KotlinCompile> {
   }
 }
 
-val ktor_version = "1.0.1"
+val ktor_version = "1.1.3"
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
