@@ -3,6 +3,6 @@ package org.jonnyzzz.demo.main
 
 
 fun main(args: Array<String>) {
-  println("Hello, JASS 2019!")
+  println("Hello, JetBrains!")
 }
 
