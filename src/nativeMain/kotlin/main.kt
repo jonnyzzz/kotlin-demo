@@ -5,5 +5,5 @@ fun main() {
 }
 
 
-actual fun implementationName() : String = "Kotlin/Native"
+actual fun implementationName() : String = TODO("Kotlin/Native")
 

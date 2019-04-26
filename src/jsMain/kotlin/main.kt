@@ -5,5 +5,5 @@ fun main() {
   printFibonacci()
 }
 
-actual fun implementationName() : String = "Kotlin/JS"
+actual fun implementationName() : String = TODO("Kotlin/JS")
 
