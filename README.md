@@ -1,6 +1,11 @@
 Kotlin Demo
 ===========
 
+
+**Slides** 
+https://docs.google.com/presentation/d/18aFCp39Qsv_R04d3vn2dfAAbYu3NjTNVGC_S0NlPoe8/edit?usp=sharing
+
+
 Helper project for one or several repositories from my (Eguene Petrenko)
 talks. Check out [jonnyzzz.com/talks](https://jonnyzzz.com/talks)
 for more details or rerefernces and slides.
