@@ -5,25 +5,24 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 
 
+val downloadDispatcher = Executors.newFixedThreadPool(3, named("downloader")).asCoroutineDispatcher()
+val mainDispatcher = Executors.newFixedThreadPool(1, named("UI")).asCoroutineDispatcher()
+
+
 fun download(url: String): String {
-  println("$threadName - Download $url")
+  println("$dispatcherName - Download $url")
   Thread.sleep((100L..700L).random())
   return "downloaded-$url"
 }
 
 fun showUrl(url: String) : String {
-  println("$threadName - Show $url")
+  println("$dispatcherName - Show $url")
   Thread.sleep((100L..300L).random())
   return "downloaded - $url"
 }
 
-
-val downloadDispatcher = Executors.newFixedThreadPool(3, named("downloader")).asCoroutineDispatcher()
-val mainThread = Executors.newFixedThreadPool(1, named("UI")).asCoroutineDispatcher()
-
-
-suspend fun main() = withContext(mainThread) {
-  println("$threadName - Started")
+suspend fun main() = withContext(mainDispatcher) {
+  println("$dispatcherName - Started")
 
   val urlsToDownload = listOf(
           "https://jonnyzzz.com",

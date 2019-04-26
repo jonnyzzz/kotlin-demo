@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadFactory
 import java.util.concurrent.atomic.AtomicInteger
 
 
-inline val threadName get() = Thread.currentThread().name.padStart(20)
+inline val dispatcherName get() = Thread.currentThread().name.padStart(20)
 
 
 fun named(name: String) = object : ThreadFactory {
