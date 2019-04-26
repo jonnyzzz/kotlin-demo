@@ -8,8 +8,6 @@ repositories {
 
 
 kotlin {
-  jvm("java")
-  js("js")
 
   //TODO: use linuxX64 (on Linux) or mingwX64 (on Windows)
   macosX64("native") {
@@ -20,22 +18,12 @@ kotlin {
     }
   }
 
-  
-
-  val commonMain by sourceSets.getting
-  val javaMain by sourceSets.getting
-  val jsMain by sourceSets.getting
-  
-  commonMain.dependencies {
-    implementation(kotlin("stdlib-common"))
-  }
-  
-  javaMain.dependencies {
-    implementation(kotlin("stdlib"))
-  }
-  
-  jsMain.dependencies {
-    implementation(kotlin("stdlib-js"))
-  }
 }
 
+tasks.getByName<Exec>("runDebugExecutableNative") {
+  doFirst {
+    println()
+    println("Running $commandLine")
+    println()
+  }
+}

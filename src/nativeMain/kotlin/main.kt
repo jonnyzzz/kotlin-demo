@@ -1,9 +1,6 @@
 package org.jonnyzzz.mpp
 
 fun main() {
-  printFibonacci()
+  println("Hello, I'm a Native Binary done with Kotlin/Native!")
 }
-
-
-actual fun implementationName() : String = "Kotlin/Native"
 
