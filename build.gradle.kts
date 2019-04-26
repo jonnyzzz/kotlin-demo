@@ -39,3 +39,13 @@ kotlin {
   }
 }
 
+
+
+tasks.getByName<Exec>("runDebugExecutableNative") {
+  doFirst {
+    println()
+    println("Running $commandLine")
+    println()
+  }
+}
+
