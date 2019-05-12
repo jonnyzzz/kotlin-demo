@@ -15,6 +15,7 @@ import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.system.measureTimeMillis
 
 
 fun main2(args: Array<String>) {
@@ -61,6 +62,13 @@ fun powers(seed: Long) = sequence {
 
 fun main() = runBlocking {
   MyScope().apply {
+
+    val time = measureTimeMillis {
+      playWithCoroutine2()
+    }
+
+    println("pay2Time: $time ms")
+
     try {
       playWithCoroutine()
     } catch (t: Throwable) {
@@ -86,6 +94,17 @@ class MyScope : CoroutineScope {
 
   override val coroutineContext: CoroutineContext
     get() = Dispatchers.Default + job
+
+
+  fun playWithCoroutine2() {
+    runBlocking {
+      launch {
+          launch { delay(1000) }
+          launch { delay(1000) }
+          launch { delay(1000) }
+      }.join()
+    }
+  }
 
 
   fun playWithCoroutine() {
