@@ -66,14 +66,12 @@ fun main() = runBlocking {
     } catch (t: Throwable) {
       println("ERRROR")
     }
-    playWithCoroutine()
-
   }
 
   val jobs = List(100_000) {
     launch {
       delay(1000L)
-      print(".")
+//      print(".")
     }
   }
 
@@ -103,8 +101,12 @@ class MyScope : CoroutineScope {
   }
 
 
-  private fun showResult(text: String) {}
+  private fun showResult(text: String) {
+    println("Show Result: $text")
+  }
+
   private fun runHeavyTask() : String = throw Error("asdasd")
+
   fun dispose() {
     job.cancel()
   }
