@@ -39,3 +39,17 @@ class Usage {
   val x = State()
   val y = WithLock().usage()
 }
+
+class Example {
+
+
+  private val lock = ReentrantLock()
+  //TODO: make sure you use [lock] to access
+  //TODO: [runningTasks] and [shutdown]
+  private var runningTasks = 0
+  private var shutdown = false
+
+
+
+  fun useIt() = "" + runningTasks + shutdown + lock
+}
