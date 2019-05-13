@@ -9,20 +9,20 @@ import kotlin.concurrent.thread
 fun main() {
   val room = MeetupRoom()
 
-  if ((0..8).random() <= 4) {
-    room.onSpeakerAppeared()
-  }
-
   val b = CyclicBarrier(101)
   List(b.parties - 1) {
     thread {
       b.await()
 
-      if ((0..2).random() <= 1) {
+      if ((0..5).random() <= 2) {
         room.onSomeoneCame()
       }
     }
   }.also { b.await() }.map { it.join() }
+
+  if ((0..8).random() <= 4) {
+    room.onSpeakerAppeared()
+  }
 
   println(room.runTheTalk())
 }
