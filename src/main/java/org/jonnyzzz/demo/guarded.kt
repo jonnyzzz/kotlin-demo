@@ -61,5 +61,4 @@ class MeetupRoom {
       lock.unlock()
     }
   }
-
 }
