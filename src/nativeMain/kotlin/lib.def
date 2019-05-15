@@ -1,0 +1,13 @@
+---
+
+char* implementationNameFromC() {
+  return 0;
+}
+
+
+typedef void (*stringCallback)(void* context, char* str);
+
+void returnStringFromCallback(void* context, stringCallback fn) {
+  fn(context, "this is the C-srting");
+}
+
