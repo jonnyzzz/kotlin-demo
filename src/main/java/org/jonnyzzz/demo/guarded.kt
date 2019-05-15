@@ -14,8 +14,11 @@ fun main() {
     thread {
       b.await()
 
-      if ((0..5).random() <= 2) {
-        room.onSomeoneCame()
+      repeat(10) {
+        Thread.yield()
+        if ((0..5).random() <= 2) {
+          room.onSomeoneCame()
+        }
       }
     }
   }.also { b.await() }.map { it.join() }
@@ -23,6 +26,8 @@ fun main() {
   if ((0..8).random() <= 4) {
     room.onSpeakerAppeared()
   }
+
+  room.`method with bug`()
 
   println(room.runTheTalk())
 }
@@ -33,6 +38,10 @@ class MeetupRoom {
 
   private var speakerAppeared = false
   private var peopleInTheRoom = 0
+
+  fun `method with bug`() {
+    peopleInTheRoom *= if (speakerAppeared) 3 else 7
+  }
 
   fun onSpeakerAppeared() {
     lock.lock()
