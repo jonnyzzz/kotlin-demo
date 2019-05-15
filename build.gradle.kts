@@ -36,7 +36,7 @@ kotlin {
   val coroutinesVersion = "1.2.1"
   commonMain.dependencies {
     implementation(kotlin("stdlib-common"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
   }
   
   nativeMain.dependencies {
@@ -45,7 +45,7 @@ kotlin {
 
   javaMain.dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
   }
 
   jsMain.dependencies {
