@@ -2,7 +2,7 @@
 package org.jonnyzzz.demo.main
 
 
-fun main(args: Array<String>) {
-  println("Hello, Melbourne!")
+fun main() {
+  println("Hello, Sydney!")
 }
 
