@@ -1,22 +1,21 @@
-@file:Suppress("UNUSED_PARAMETER", "unused", "FunctionName")
-
-package org.jonnyzzz.demo
+@file:Suppress("UNUSED_PARAMETER", "unused", "FunctionName", "PackageDirectoryMismatch")
+package org.jonnyzzz.demo.announcements
 
 
 fun main(args: Array<String>) {
 
   Devoxx Belgium
 
-  Kotlin Deep Dive in 4.2 parts {
+  Expressive APIs and Kotlin {
     with `@jonnyzzz`
 
-    on November 13 at 9.30
+    Today at 17.10 in Broadway(room)
 
     includes {
-//      Live Coding in IntelliJ IDEA
+      Live Coding with IntelliJ IDEA
     }
   }
-
+  
 
   `@jonnyzzz` speak {
       Kotlin and `C#`
@@ -27,11 +26,17 @@ fun main(args: Array<String>) {
 
 }
 
+infix fun Any.Kotlin(any: Any) = Any()
+
 fun includes(x: () -> Unit) = Kotlin
 
 operator fun Any.unaryMinus() = Any()
 
 var Kotlin = Any()
+var room = {   }
+@get:JvmName("today-02") val Today = Any()
+val Expressive = Any()
+val Broadway = Any()
 infix fun Any.Deep(a:Any) = Any()
 var Dive = Kotlin
 val Coding = Kotlin
@@ -40,6 +45,8 @@ val Belgium = Kotlin
 val Devoxx = Kotlin
 val on = Kotlin
 
+infix fun Any.Broadway(x: Any) = Any()
+infix fun Any.APIs(x: Any) = Any()
 infix fun Any.`@jonnyzzz`(x: Any) = Any()
 infix fun Any.Devoxx(x: Any) = Any()
 infix fun Any.IDEA(x: Any) = Any()
