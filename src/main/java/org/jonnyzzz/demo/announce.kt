@@ -13,9 +13,10 @@ fun main(args: Array<String>) {
 
     includes {
       Live Coding with IntelliJ IDEA
+      DSLs
     }
   }
-  
+
 
   `@jonnyzzz` speak {
       Kotlin and `C#`
