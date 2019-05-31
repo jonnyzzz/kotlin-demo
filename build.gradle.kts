@@ -16,7 +16,7 @@ group = "org.jonnyzzz"
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    freeCompilerArgs += "-XXLanguage:+InlineClasses"
+    freeCompilerArgs += listOf("-XXLanguage:+InlineClasses", "-Xuse-experimental=kotlin.contracts.ExperimentalContracts")
     jvmTarget = "1.8"
   }
 }
