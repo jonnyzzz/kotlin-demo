@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
   `java-library`
-  kotlin("jvm") version "1.3.21"
+  kotlin("jvm") version "1.3.31"
 }
 
 allprojects {
@@ -21,7 +21,6 @@ tasks.withType<KotlinCompile> {
   }
 }
 
-val ktor_version = "1.1.3"
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -39,9 +38,10 @@ dependencies {
   implementation("io.reactivex.rxjava2:rxjava:2.2.2")
   implementation("com.squareup.okhttp3:okhttp:3.11.0")
   
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.1.1")
-  
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.2.1")
+
+  val ktor_version = "1.2.1"
   implementation("io.ktor:ktor-server-netty:$ktor_version")
   implementation("io.ktor:ktor-html-builder:$ktor_version")
   implementation("io.ktor:ktor-locations:$ktor_version")
