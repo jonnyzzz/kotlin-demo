@@ -1,4 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch")
+@file:Suppress("PackageDirectoryMismatch", "FunctionName", "unused", "UnnecessaryVariable")
 
 package org.jonnyzzz.demo.c2
 
@@ -23,17 +23,21 @@ fun main() {
   }
 }
 
-fun actionWithCallback(callback: (String) -> Unit) {
-  //do some work()
-  callback("this is work result")
-}
+  fun `do some work`() {}
 
-fun noMoreCallbacks() {
-  val value = runBlocking {
+  fun actionWithCallback(callback: (String) -> Unit) {
+    `do some work`()
+    callback("…")
+  }
+
+  fun noMoreCallbacks(): String = runBlocking {
     suspendCoroutine<String> { cont ->
-      actionWithCallback { cont.resume(it) }
+      actionWithCallback {
+        //resume coroutine & return value
+        cont.resume(it)
+      }
     }
   }
 
 
-}
+
