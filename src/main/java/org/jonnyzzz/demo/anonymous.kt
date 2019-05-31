@@ -25,10 +25,11 @@ package org.jonnyzzz.demo.anonymous
     fun bark() = Unit
   }
 
-  private val mix = object : X, Y {
+  object Impl : X, Y {
+    //resolves ambiguity
     override fun bark() {
-      super<X>.bark() //call X.bark()
-      super<Y>.bark() //call Y.bark()
+      super<X>.bark()
+      super<Y>.bark()
     }
   }
 
