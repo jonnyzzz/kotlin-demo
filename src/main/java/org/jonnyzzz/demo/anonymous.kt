@@ -1,4 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch")
+@file:Suppress("PackageDirectoryMismatch", "unused")
 
 package org.jonnyzzz.demo.anonymous
 
@@ -14,9 +14,24 @@ package org.jonnyzzz.demo.anonymous
     }
   }
 
-  //accessing fields of an anonymous object
+  //accessing members of an anonymous object
   val state = impl.state
 
 
-val mock = state
+  interface X {
+    fun bark() {}
+  }
+  interface Y {
+    fun bark() = Unit
+  }
+
+  private val mix = object : X, Y {
+    override fun bark() {
+      super<X>.bark() //call X.bark()
+      super<Y>.bark() //call Y.bark()
+    }
+  }
+
+
+
 

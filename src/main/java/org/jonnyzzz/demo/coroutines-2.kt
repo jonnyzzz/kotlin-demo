@@ -1,4 +1,5 @@
 @file:Suppress("PackageDirectoryMismatch")
+
 package org.jonnyzzz.demo.c2
 
 import kotlinx.coroutines.runBlocking
@@ -20,4 +21,19 @@ fun main() {
       println("${Thread.currentThread().id} - $x $it")
     }
   }
+}
+
+fun actionWithCallback(callback: (String) -> Unit) {
+  //do some work()
+  callback("this is work result")
+}
+
+fun noMoreCallbacks() {
+  val value = runBlocking {
+    suspendCoroutine<String> { cont ->
+      actionWithCallback { cont.resume(it) }
+    }
+  }
+
+
 }
