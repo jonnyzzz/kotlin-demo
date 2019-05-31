@@ -4,6 +4,7 @@ package org.jonnyzzz.demo.erasure
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlin.reflect.KClass
 
 
 inline fun <reified T> loadJsonObject(text: String): T {
@@ -15,6 +16,8 @@ val loadGeneric: List<Map<String, List<Int>>> = loadJsonObject("[{\"a\":[42]}]")
 
 fun main() {
   println(loadGeneric)
+
+  println(castToY<List<String>>())
 }
 
 
@@ -24,6 +27,15 @@ fun main() {
     t.run()
     return listOf("123" + t.toDouble())
   }
+
+
+  fun <T> castToT(t: Any): T {
+    return t as T
+  }
+
+  inline fun <reified Y : Any> castToY(): KClass<Y> = Y::class
+
+
 
 
 

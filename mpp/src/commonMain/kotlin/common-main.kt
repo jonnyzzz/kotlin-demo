@@ -16,4 +16,9 @@ fun <T> genericFunction(t: T): List<String>
   return listOf("123" + t.toDouble())
 }
 
+fun another() {
+  val x = listOf("1")
+
+  println(x::class)
+}
 
