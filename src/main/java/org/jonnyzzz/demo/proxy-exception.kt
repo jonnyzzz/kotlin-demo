@@ -9,14 +9,23 @@ interface Service {
   fun doTheJob(): String
 }
 
+class ServiceException : Exception()
 
 fun main() {
+
   val clazz = Service::class.java
-  val service = Proxy.newProxyInstance(clazz.classLoader, arrayOf(clazz)) { _, m, _ ->
-    if (m.name == Service::doTheJob.name) {
-      throw Exception("Not yet ready!")
-    }
+  val service = Proxy.newProxyInstance(
+          clazz.classLoader,
+          arrayOf(clazz)) { _, _, _ ->
+    //throw exception from the proxy
+    throw ServiceException()
   } as Service
 
-  service.doTheJob()
+  try {
+    service.doTheJob()
+  } catch (e: ServiceException) {
+    //[dog] It's fine!
+  }
 }
+
+
