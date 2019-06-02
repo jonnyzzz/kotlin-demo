@@ -2,24 +2,11 @@
 
 package org.jonnyzzz.demo.erasure
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import kotlin.reflect.KClass
 
-
-inline fun <reified T> loadJsonObject(text: String): T {
-  return ObjectMapper().readValue(text, object : TypeReference<T>() {})
-}
-
-val loadGeneric: List<Map<String, List<Int>>> = loadJsonObject("[{\"a\":[42]}]")
-
-
 fun main() {
-  println(loadGeneric)
-
   println(castToY<List<String>>())
 }
-
 
   fun <T> genericFunction(t: T): List<String>
           where T : Number,
@@ -35,6 +22,26 @@ fun main() {
 
   inline fun <reified Y : Any> castToY(): KClass<Y> = Y::class
 
+
+class KotlinService
+inline fun <reified T> regObject() {}
+inline fun <reified T> parseObject() : T = TODO()
+
+
+
+
+
+fun theLastExample() {
+
+  // register new object
+  regObject<KotlinService>()
+
+  // parse something
+  val list = parseObject<List<String>>()
+
+
+
+}
 
 
 

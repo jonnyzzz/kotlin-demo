@@ -1,18 +1,24 @@
 @file:Suppress("PackageDirectoryMismatch")
+
 package org.jonnyzzz.demo.erasure2
 
 
-fun main() {
+  fun <T> castToT(t: Any) = t as T
+
+
+  inline fun <reified Y> castToY(t: Any) = t as Y
+
+  val test = run {
+    log(castToT<Int>("not int"))
+    log(castToY<Int>("crash"))
+  }
+
   fun log(x: Any) {
     println("$x (${x::class})")
   }
 
-  println("1 of 2")
-  log(castToT<Int>("not int"))
-  println("2 of 2")
-  log(castToY<Int>("crash"))
+
+fun main() {
+  println(test)
 }
 
-
-fun <T> castToT(t: Any) = t as T
-inline fun <reified Y> castToY(t: Any) = t as Y
