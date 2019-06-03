@@ -11,16 +11,16 @@ fun sum(x: Long): Long {
   return 1 + sum(x - 1)
 }
 
-suspend fun coSum(x: Int): Int {
-  yield()
+  suspend fun coSum(x: Int): Int {
+    yield()
 
-  if (x <= 1) return 1
-  return 1 + coSum(x - 1)
-}
-
-fun main() {
-  runBlocking {
-    println(coSum(1000))
+    if (x <= 1) return 1
+    return 1 + coSum(x - 1)
   }
-}
+
+  fun main() {
+    runBlocking {
+      println(coSum(1000000))
+    }
+  }
 
