@@ -9,19 +9,25 @@ interface Service {
   fun doTheJob(): String
 }
 
+class Wrapper(x: Service) : Service by x
+
 fun main() {
+
   val clazz = Service::class.java
-  val service = Proxy.newProxyInstance(clazz.classLoader, arrayOf(clazz)) { _, m, _ ->
-    if (m.name == Service::doTheJob.name) {
-      return@newProxyInstance null
-    }
-    Any()
+  val service = Proxy.newProxyInstance(
+          clazz.classLoader,
+          arrayOf(clazz)) { _, _, _ ->
+    //returns null from the proxy
+    null
   } as Service
 
   val x = service.doTheJob()
 
   x == null
-  println("Actual value is ${x == null}")
-  println("Actual value is $x")
+
+
+  println("The value == null is ${x == null}")
+  println("The value is $x")
+
 }
 
