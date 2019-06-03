@@ -29,5 +29,15 @@ fun main() {
   println("The value == null is ${x == null}")
   println("The value is $x")
 
+  callWithFakeNullPrivate(x)
+  callWithFakeNull(x)
+
 }
 
+fun callWithFakeNull(x: String) {
+  println("I'm ok: $x")
+}
+
+private fun callWithFakeNullPrivate(x: String) {
+  println("I'm ok: $x")
+}
