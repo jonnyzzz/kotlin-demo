@@ -1,6 +1,6 @@
 @file:Suppress("PackageDirectoryMismatch")
 
-package org.jonnyzzz.demo.corecursion
+package org.jonnyzzz.demo.corecursionSolution
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
@@ -19,8 +19,6 @@ suspend fun coSum(x: Int): Int {
 }
 
 fun main() {
-//  sum(1000)
-
   runBlocking {
     println(coSum(1000))
   }
