@@ -22,6 +22,7 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+  implementation("org.jetbrains.kotlin:kotlin-script-runtime")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
