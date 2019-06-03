@@ -1,8 +1,8 @@
 @file:Suppress("PackageDirectoryMismatch")
 
 package org.jonnyzzz.demo.bubble
-// https://en.wikipedia.org/wiki/Bubble_sort
 
+// https://en.wikipedia.org/wiki/Bubble_sort
 
 
 fun bubbleSort(a: IntArray) {
