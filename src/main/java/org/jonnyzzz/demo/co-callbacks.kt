@@ -5,20 +5,23 @@ import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+  fun funWithCallback(onDone: (String) -> Unit) {
+    onDone("@jonnyzzz")
+  }
 
-  fun function(): String = runBlocking {
-    suspendCoroutine<String> { cont ->
-      functionWithCallback {
+  fun justFun(): String = runBlocking { coFun() }
+
+  suspend fun coFun(): String {
+    return suspendCoroutine { cont ->
+      funWithCallback {
         //resume coroutine & return the value
         cont.resume(it)
       }
     }
   }
 
-  fun functionWithCallback(onDone: (String) -> Unit) {
-    onDone("@jonnyzzz")
-  }
 
 
 
-val q = ::functionWithCallback
+
+val q = ::funWithCallback
