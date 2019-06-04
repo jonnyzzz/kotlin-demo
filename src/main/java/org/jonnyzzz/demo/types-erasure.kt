@@ -5,7 +5,7 @@ package org.jonnyzzz.demo.erasure
 import kotlin.reflect.KClass
 
 fun main() {
-  println(castToY<List<String>>())
+  println(inlineCast<List<String>>())
 }
 
   fun <T> genericFunction(t: T): List<String>
@@ -16,11 +16,11 @@ fun main() {
   }
 
 
-  fun <T> castToT(t: Any): T {
+  fun <T> genericCast(t: Any): T {
     return t as T
   }
 
-  inline fun <reified Y : Any> castToY(): KClass<Y> = Y::class
+  inline fun <reified Y : Any> inlineCast(): KClass<Y> = Y::class
 
 
 class KotlinService

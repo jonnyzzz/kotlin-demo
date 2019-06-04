@@ -2,15 +2,13 @@
 
 package org.jonnyzzz.demo.erasure2
 
-
-  fun <T> castToT(t: Any) = t as T
-
-
-  inline fun <reified Y> castToY(t: Any) = t as Y
+  inline fun <reified Y> reifiedCast(t: Any) = t as Y
+  fun <T> hackCast(t: Any) = t as T
 
   val test = run {
-    log(castToT<Int>("not int"))
-    log(castToY<Int>("crash"))
+    hackCast<Int>("not int")
+
+    reifiedCast<Int>("crash")
   }
 
   fun log(x: Any) {
@@ -22,3 +20,4 @@ fun main() {
   println(test)
 }
 
+private inline fun run(a: () -> Unit) = a()

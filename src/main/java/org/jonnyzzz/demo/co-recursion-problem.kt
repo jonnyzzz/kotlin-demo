@@ -9,7 +9,7 @@ package org.jonnyzzz.demo.corecursionProblem
   }
 
   fun main() {
-    println(sum(1000000))
+    println(sum(100_000))
   }
 
 
