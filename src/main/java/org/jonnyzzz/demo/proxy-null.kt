@@ -12,6 +12,14 @@ interface Service {
 class Wrapper(x: Service) : Service by x
 
 fun main() {
+  val y = (JService() as Service).doTheJob()
+
+  y == null
+
+
+  println("The value == null is ${y == null}")
+  println("The value is $y")
+
 
   val clazz = Service::class.java
   val service = Proxy.newProxyInstance(
