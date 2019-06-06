@@ -1,4 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch", "unused")
+@file:Suppress("PackageDirectoryMismatch", "unused", "UNUSED_VARIABLE")
 
 package org.jonnyzzz.demo.idioms
 
@@ -8,8 +8,12 @@ class Item
 fun returns() {
   run {
 
+
+
     fun findItem(id: Id): Item? = TODO("$id")
+
     fun Item.loadInfo(): String? = TODO()
+
 
     fun loadMoreInfo(id: Id): String? {
       val item = findItem(id)

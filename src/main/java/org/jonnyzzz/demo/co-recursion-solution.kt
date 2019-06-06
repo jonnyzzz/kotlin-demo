@@ -11,15 +11,15 @@ fun sum(x: Long): Long {
   return 1 + sum(x - 1)
 }
 
-  suspend fun coSum(x: Int): Int {
+  suspend fun sum(x: Int): Int {
     //free call stack - suspend it
     yield()
 
     if (x <= 1) return 1
-    return 1 + coSum(x - 1)
+    return 1 + sum(x - 1)
   }
 
   fun main() = runBlocking {
-    println(coSum(100_000))
+    println(sum(100_000))
   }
 

@@ -14,18 +14,16 @@ class ServiceException : Exception()
 fun main() {
 
   val clazz = Service::class.java
+  // implement Service implicitly
   val service = Proxy.newProxyInstance(
           clazz.classLoader,
           arrayOf(clazz)) { _, _, _ ->
-    //throw exception from the proxy
+    //throws exception for all methods
     throw ServiceException()
   } as Service
+  //let's call the Service#doTheJob
+  service.doTheJob()
 
-  try {
-    service.doTheJob()
-  } catch (e: ServiceException) {
-    //[dog] It's fine!
-  }
 }
 
 

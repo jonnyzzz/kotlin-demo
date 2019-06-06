@@ -1,10 +1,9 @@
 @file:Suppress("PackageDirectoryMismatch")
 
-package org.jonnyzzz.demo.erasure6
+package org.jonnyzzz.demo.erasure2
 
-  fun <T> hackCast(t: Any): T = t as T
-
-  inline fun <reified Y> reifiedCast(t: Any): Y = t as Y
+  inline fun <reified Y> reifiedCast(t: Any) = t as Y
+  fun <T> hackCast(t: Any) = t as T
 
   val test = run {
     hackCast<Int>("not int")
