@@ -1,6 +1,6 @@
 @file:Suppress("PackageDirectoryMismatch")
 @file:JvmName("KotlinPresentationPlan")
-package org.jonnyzzz.demo.plan
+package org.jonnyzzz.demo.plan.ws
 
 
 val plan = buildPlan {
