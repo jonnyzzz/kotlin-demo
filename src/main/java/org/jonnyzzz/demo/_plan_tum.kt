@@ -3,12 +3,16 @@
 package org.jonnyzzz.demo.plan.tum
 
 val plan = buildPlan {
-  + "collections (compare with Java)"
+
+  + "anonymous object" {
+    + "implement multiple interfaces"
+    + "access members directly"
+  }
 
   + "extensions" {
     + "extension function"
     + "extension property"
-    + "may do via ordinary live coding with DSLs"
+    + "ordinary live coding with DSLs"
     + "extension with a receivers"
     + "quick DSLs"
   }
@@ -19,6 +23,8 @@ val plan = buildPlan {
     + "use {}"
     + "Local and non-local returns"
   }
+
+  + "collections (compare with Java)"
 
   + "lazy"
 
