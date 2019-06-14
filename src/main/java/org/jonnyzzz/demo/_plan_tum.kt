@@ -3,23 +3,24 @@
 package org.jonnyzzz.demo.plan.tum
 
 val plan = buildPlan {
-  + "extension properties" {
+  + "collections (compare with Java)"
+
+  + "extensions" {
     + "extension function"
     + "extension property"
     + "may do via ordinary live coding with DSLs"
-  }
-
-  + "lazy"
-
-  + "sequences with coroutines" {
-    + ("use Coroutines presentation")
+    + "extension with a receivers"
+    + "quick DSLs"
   }
 
   + "also, apply, let, run" {
     + "code if and initialization"
     + "with {}"
     + "use {}"
+    + "Local and non-local returns"
   }
+
+  + "lazy"
 
   + "Nothing" {
     + "elvis"
@@ -28,14 +29,15 @@ val plan = buildPlan {
     + ("use Kotliners slides")
   }
 
-  + "Local and non-local returns"
-  + "collections (compare with Java)"
-
   + "reified generics and type erasure" {
     + "show bytecode"
     + "declarations clash"
     + "cast example"
     + "json example with reflection"
+  }
+
+  + "sequences with coroutines" {
+    + ("use Coroutines presentation")
   }
 
   + "injected languages" {
