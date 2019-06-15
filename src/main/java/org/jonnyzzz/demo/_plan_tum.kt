@@ -2,14 +2,16 @@
 @file:JvmName("KotlinPresentationPlan")
 package org.jonnyzzz.demo.plan.tum
 
+import java.lang.StringBuilder
+
 val plan = buildPlan {
 
-  + "anonymous object" {
+  "anonymous object" {
     + "implement multiple interfaces"
     + "access members directly"
   }
 
-  + "extensions" {
+  "extensions" {
     + "extension function"
     + "extension property"
     + "ordinary live coding with DSLs"
@@ -17,7 +19,7 @@ val plan = buildPlan {
     + "quick DSLs"
   }
 
-  + "also, apply, let, run" {
+  "also, apply, let, run" {
     + "code if and initialization"
     + "with {}"
     + "use {}"
@@ -28,25 +30,25 @@ val plan = buildPlan {
 
   + "lazy"
 
-  + "Nothing" {
+  "Nothing" in slides {
     + "elvis"
     + "several types"
     + "how to simplify code"
     + ("use Kotliners slides")
   }
 
-  + "reified generics and type erasure" {
+  "reified generics and type erasure" in slides {
     + "show bytecode"
     + "declarations clash"
     + "cast example"
     + "json example with reflection"
   }
 
-  + "sequences with coroutines" {
+  "sequences with coroutines" in slides {
     + ("use Coroutines presentation")
   }
 
-  + "injected languages" {
+  "injected languages" {
     + "@Language annotation"
     + "js() function"
     + "quick fix action"
@@ -65,21 +67,38 @@ private interface PlanBuilder {
   operator fun String.unaryPlus()
   operator fun String.unaryMinus()
   operator fun String.invoke(action : PlanBuilder.() -> Unit)
+
+  fun slides(function: PlanBuilder.() -> Unit) = function
+
+  operator fun (PlanBuilder.() -> Unit).contains(block: String): Boolean {
+    "[SLIDES] $block" {
+      this@contains()
+    }
+    return true
+  }
 }
 
+
 private fun buildPlan(action: PlanBuilder.() -> Unit) : String = buildString {
+  buildPlan(this, "", action)
+}
+
+private fun buildPlan(sb: StringBuilder,
+                      offset: String,
+                      action: PlanBuilder.() -> Unit) {
   object : PlanBuilder {
     override fun String.unaryMinus() {
-      append(" - ").appendln(this).appendln()
+      sb.append(offset).append(" - ").appendln(this)
     }
 
     override fun String.unaryPlus() {
-      append(" + ").appendln(this).appendln()
+      sb.append(offset).append(" + ").appendln(this)
     }
 
     override fun String.invoke(action: PlanBuilder.() -> Unit) {
-      append(buildPlan(action))
+      +this
+      buildPlan(sb, "$offset  ", action)
+      sb.appendln()
     }
   }.action()
-
 }
