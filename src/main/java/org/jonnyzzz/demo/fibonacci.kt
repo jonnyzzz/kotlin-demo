@@ -1,4 +1,5 @@
-package org.jonnyzzz.demo
+@file:Suppress("PackageDirectoryMismatch")
+package org.jonnyzzz.demo.fibonacci
 
 fun fibonacci() = sequence {
   var a_0 = 1
@@ -14,6 +15,6 @@ fun fibonacci() = sequence {
   }
 }
 
-fun main(args: Array<String>) {
+fun main() {
   println(fibonacci().take(10).toList())
 }
