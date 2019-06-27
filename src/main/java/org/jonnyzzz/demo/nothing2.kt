@@ -5,14 +5,15 @@ import kotlin.reflect.typeOf
 
 //
 //@ExperimentalStdlibApi
-//fun main() {
-//
-//  val x = null
-//
+fun main() {
+
+  val x = null
+
+  //what is the type of x?
+
+
 //  println(typeOf(x))
-//
-//
-//}
+}
 //
 //@ExperimentalStdlibApi
 //inline fun <reified T> typeOf(t:T) = typeOf<T>()
