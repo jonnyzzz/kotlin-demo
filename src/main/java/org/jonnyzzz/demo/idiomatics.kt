@@ -25,6 +25,25 @@ fun returns() {
       }
       return info
     }
+  }
+
+
+  run {
+
+    fun findItem(id: Id): Item? = TODO("$id")
+
+    fun Item.loadInfo(): String? = TODO()
+
+
+    fun loadMoreInfo(id: Id): String? {
+      val item = findItem(id)
+      if (item == null) return null
+
+
+
+      val info = item.loadInfo() ?: throw Exception("…")
+      return info
+    }
 
   }
 
