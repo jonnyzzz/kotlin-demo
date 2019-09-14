@@ -3,6 +3,6 @@ package org.jonnyzzz.demo.main
 
 
 fun main() {
-  println("Hello, Sydney!")
+  println("Hello, San Francisco!")
 }
 
