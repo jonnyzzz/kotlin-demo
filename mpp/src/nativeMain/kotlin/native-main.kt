@@ -1,6 +1,7 @@
 
 
 fun main() {
-  println("Hello, I'm native app!")
+  println("Hello, I'm native app  :)")
+  commonFunction()
 }
 

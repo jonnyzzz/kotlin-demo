@@ -1,3 +1,4 @@
+@file:Suppress("PackageDirectoryMismatch")
 package org.jonnyzzz.demo.math
 
 object Mass
@@ -33,6 +34,6 @@ class OpPlus<A>(a: A, b: A): Op<A,A>(a,b)
 class OpMinus<A>(a: A, b: A): Op<A,A>(a,b)
 
 
-fun main(args: Array<String>) {
+fun main() {
   println(formula)
 }

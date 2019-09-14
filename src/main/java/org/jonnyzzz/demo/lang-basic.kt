@@ -1,8 +1,9 @@
+@file:Suppress("PackageDirectoryMismatch")
 package org.jonnyzzz.demo.langbasic
 
 
 
-fun main(args: Array<String>) {
+fun main() {
   runBasic {
     10 PRINT "Hello, from Kotlin!"
     30 PRINT "@jonnyzzz"

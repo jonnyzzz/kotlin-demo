@@ -1,6 +1,7 @@
-package org.jonnyzzz.demo
+@file:Suppress("PackageDirectoryMismatch")
+package org.jonnyzzz.demo.lists
 
-fun main(args: Array<String>) {
+fun main() {
 
   listOf("A")
           .asSequence()

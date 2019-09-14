@@ -1,9 +1,8 @@
-@file:Suppress("UNUSED_PARAMETER", "unused", "FunctionName", "PropertyName")
-
+@file:Suppress("UNUSED_PARAMETER", "unused", "FunctionName", "PropertyName", "PackageDirectoryMismatch")
 package org.jonnyzzz.demo.lorenIpsum
 
 
-fun main(args: Array<String>) {
+fun main() {
   `loren ipsum` {
 
     Lorem ipsum dolor sit amet `,`

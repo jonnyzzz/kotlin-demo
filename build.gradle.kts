@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
   `java-library`
-  kotlin("jvm") version "1.3.40"
+  kotlin("jvm") version "1.3.50"
 }
 
 allprojects {
@@ -31,19 +31,16 @@ dependencies {
   implementation("com.fasterxml.jackson.core:jackson-annotations:2.9.1")
   implementation("com.fasterxml.jackson.core:jackson-databind:2.9.1")
 
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.1")
+
   implementation("org.jdom:jdom2:2.0.6")
   implementation("org.jonnyzzz.kotlin.xml.bind:api:0.1.9")
   implementation("org.jonnyzzz.kotlin.xml.bind:jdom:0.1.9")
   implementation("org.jonnyzzz.kotlin.xml.dsl:api:0.1.6")
   implementation("org.jonnyzzz.kotlin.xml.dsl:jdom:0.1.6")
-  
-  implementation("io.reactivex.rxjava2:rxjava:2.2.2")
-  implementation("com.squareup.okhttp3:okhttp:3.11.0")
-  
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.2.1")
 
-  val ktor_version = "1.2.1"
+  val ktor_version = "1.2.4"
   implementation("io.ktor:ktor-server-netty:$ktor_version")
   implementation("io.ktor:ktor-html-builder:$ktor_version")
   implementation("io.ktor:ktor-locations:$ktor_version")

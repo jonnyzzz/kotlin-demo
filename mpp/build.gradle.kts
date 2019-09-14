@@ -8,14 +8,7 @@ kotlin {
   jvm()
 
   js {
-    compilations.all {
-      kotlinOptions {
-        metaInfo = true
-        sourceMap = true
-        moduleKind = "commonjs"
-        main = "call"
-      }
-    }
+    nodejs()
   }
 
   // UNCOMMENT TO ENABLE Kotlin/NAtive
@@ -27,7 +20,7 @@ kotlin {
 }
 
 
-val kotlinx_coroutines_version = "1.1.1"
+val kotlinx_coroutines_version = "1.3.1"
 
 
 kotlin {
