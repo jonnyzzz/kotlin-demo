@@ -1,4 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch", "UnusedMainParameter")
+@file:Suppress("PackageDirectoryMismatch", "UnusedMainParameter", "GraziInspection")
 package org.jonnyzzz.demo.main
 
 
