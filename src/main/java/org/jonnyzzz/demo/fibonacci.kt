@@ -2,16 +2,16 @@
 package org.jonnyzzz.demo.fibonacci
 
 fun fibonacci() = sequence {
-  var a_0 = 1
-  var a_1 = 1
+  var prev = 1
+  var cur = 1
 
   // this sequence is infinite
   while(true) {
-    val a_n = a_0 + a_1
-    a_0 = a_1
-    a_1 = a_n
+    val next = prev + cur
+    prev = cur
+    cur = next
 
-    yield(a_0)
+    yield(prev)
   }
 }
 
