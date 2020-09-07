@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
   `java-library`
-  kotlin("jvm") version "1.3.50"
+  kotlin("jvm") version "1.4.0"
 }
 
 allprojects {
@@ -40,7 +40,7 @@ dependencies {
   implementation("org.jonnyzzz.kotlin.xml.dsl:api:0.1.6")
   implementation("org.jonnyzzz.kotlin.xml.dsl:jdom:0.1.6")
 
-  val ktor_version = "1.2.4"
+  val ktor_version = "1.4.0"
   implementation("io.ktor:ktor-server-netty:$ktor_version")
   implementation("io.ktor:ktor-html-builder:$ktor_version")
   implementation("io.ktor:ktor-locations:$ktor_version")
@@ -51,3 +51,4 @@ dependencies {
 
   testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
 }
+
