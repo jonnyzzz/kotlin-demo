@@ -79,10 +79,13 @@ tasks {
       from(compileTestKotlinJs.kotlinOptions.outputFile)
 
       jsTestCompileClasspath.forEach {
-        from(zipTree(it.absolutePath).matching {
+        when {
+          it.isFile -> zipTree(it)
+          else -> fileTree(it)
+        }.matching {
           include("*.js")
           include("*.map")
-        })
+        }
       }
     }
 
