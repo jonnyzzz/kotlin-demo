@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
   `java-library`
-  kotlin("jvm") version "1.4.0"
+  kotlin("jvm") version "1.4.10"
 }
 
 allprojects {
@@ -31,8 +31,8 @@ dependencies {
   implementation("com.fasterxml.jackson.core:jackson-annotations:2.9.1")
   implementation("com.fasterxml.jackson.core:jackson-databind:2.9.1")
 
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9")
 
   implementation("org.jdom:jdom2:2.0.6")
   implementation("org.jonnyzzz.kotlin.xml.bind:api:0.1.9")

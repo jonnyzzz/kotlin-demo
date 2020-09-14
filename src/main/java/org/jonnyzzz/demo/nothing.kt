@@ -21,6 +21,6 @@ fun returns(): String {
   val c = TODO("Not ready yet")
   val d = theAssert()
 
-  /// a,b,c type is Nothing
+  /// a,b,c,d type is Nothing
 
 }
