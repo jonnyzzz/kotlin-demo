@@ -1,16 +1,20 @@
-@file:Suppress("unused", "UNUSED_VARIABLE")
+@file:Suppress("unused", "UNUSED_VARIABLE", "ThrowableNotThrown")
 
 package org.jonnyzzz.demo
 
+import kotlin.system.exitProcess
 
-  fun theAssert(): Nothing {
+
+  fun ourSpecialHardStopFunction(): Nothing {
     throw Exception("assert failed")
   }
 
   fun example() {
-    theAssert()
+    ourSpecialHardStopFunction()
     println("It will not run")
   }
+
+
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -19,8 +23,9 @@ fun returns(): String {
   val a = return "@jonnyzzz"
   val b = throw Exception("...")
   val c = TODO("Not ready yet")
-  val d = theAssert()
+  val d = ourSpecialHardStopFunction()
+  val e = exitProcess(1)
 
-  /// a,b,c,d type is Nothing
+  /// a,b,c,d,e type is Nothing
 
 }

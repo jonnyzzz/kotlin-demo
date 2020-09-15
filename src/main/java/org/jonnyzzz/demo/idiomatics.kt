@@ -1,4 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch", "unused", "UNUSED_VARIABLE")
+@file:Suppress("PackageDirectoryMismatch", "unused", "UNUSED_VARIABLE", "FunctionName")
 
 package org.jonnyzzz.demo.idioms
 
@@ -8,7 +8,13 @@ class Item
 fun returns() {
   run {
 
-
+    /**
+     * Always throws [NotImplementedError] stating that
+     * operation is not implemented.
+     */
+    fun TODO(reason: String): Nothing {
+      throw NotImplementedError("An operation is not implemented: $reason")
+    }
 
     fun findItem(id: Id): Item? = TODO("$id")
 
