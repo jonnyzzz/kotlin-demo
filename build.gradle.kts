@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
   `java-library`
-  kotlin("jvm") version "1.4.10"
+  kotlin("jvm") version "1.4.21"
 }
 
 allprojects {
