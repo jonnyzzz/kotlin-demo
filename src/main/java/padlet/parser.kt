@@ -11,50 +11,76 @@ val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w3
 val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht")
 
 fun main() {
-    download()
+//    download()
 
     for (day in weekDays) {
-        processDay(File(padDir, day))
+        val dayRoot = File(padDir, day)
+        if (dayRoot.isDirectory) {
+            processDay(dayRoot)
+        }
+    }
+}
+
+private fun docxToPdf2(docx: File, pdf: File) {
+    runCatching { pdf.delete() }
+    runCatching { pdf.parentFile.mkdirs() }
+
+    val script = """
+        set tmpDocFile to POSIX file "${docx.canonicalPath}"
+        set outputPdf to POSIX file "${pdf.canonicalPath}"
+
+        tell application "Pages"
+           activate
+           close every document without saving
+
+           set thisDoc to open tmpDocFile
+           export thisDoc to outputPdf as PDF
+           close thisDoc without saving
+        end tell
+    """.trimIndent()
+
+    val code = ProcessBuilder()
+        .command("osascript", "-e", script)
+        .directory(docx.parentFile)
+        .inheritIO()
+        .start()
+        .waitFor()
+
+    if (code != 0) {
+        error("Failed to convert docx to pdf")
     }
 }
 
 private fun processDay(dayRoot: File) {
     val targetRoot = File(dayRoot.parent + "-merged", dayRoot.name)
     targetRoot.deleteRecursively()
+    targetRoot.mkdirs()
 
-    val mergedDocX = File(targetRoot, "all.docx")
-    val mergedDocXPdf = File(targetRoot, "all-docs.pdf")
     val imagesPdf = File(targetRoot, "images.pdf")
-    val rootPdf = File(targetRoot, "root.pdf")
+    val rootPdf = File(targetRoot, "all-merged.pdf")
 
-    mergeDocx(dayRoot, mergedDocX)
+    val convertedPdfsRoot = File(targetRoot, "docx2pdf")
+    val allDocX = dayRoot.walkTopDown()
+        .filter { it.isFile && it.name.endsWith(".docx") }
+        .toList()
+        .associateWith { docx ->
+            runCatching {
+                val pdf = File(convertedPdfsRoot, docx.name + ".pdf")
+                pdf.parentFile.mkdirs()
+                if (!pdf.isFile) {
+                    println("Converting to PDF: $docx ...")
+                    docxToPdf2(docx, pdf)
+                } else {
+                    println("Converting to PDF: $docx  [UP-TO-DATE]")
+                }
+                pdf
+            }.getOrNull()
+        }
+
     imagesToPdf(dayRoot, imagesPdf)
 
-    if (mergedDocX.isFile) {
-        runCatching {
-            docxToPdf(mergedDocX, mergedDocXPdf)
-            mergePdf(listOf(imagesPdf, mergedDocXPdf).filter { it.isFile }, rootPdf)
-        }
-    }
-}
-
-private fun mergeDocx(path: File, result: File) {
-    val allDocX = path.walkTopDown().filter { it.name.endsWith(".docx") }.toList()
-    if (allDocX.isEmpty()) return
-
-    println("Merging: " + allDocX.map { it.name }.toSortedSet().joinToString())
-    println("Output: $result")
-
-    result.parentFile.mkdirs()
-    val args: List<String> = listOf("pandoc", "-s") + allDocX.map { it.path }.toList() + listOf("-o", result.path)
-    println("Running command: " + args.joinToString("") { "\n    $it"})
-
-    val code = ProcessBuilder()
-        .command(args)
-        .directory(path)
-        .start().waitFor()
-
-    if (code != 0) error("Failed to run pandoc!")
+    val allPdfsToMerge = allDocX.values + imagesPdf.takeIf { it.isFile }
+    mergePdf(allPdfsToMerge.filterNotNull(), rootPdf)
 }
 
 private fun mergePdf(pdfs: List<File>, result: File) {
@@ -62,49 +88,27 @@ private fun mergePdf(pdfs: List<File>, result: File) {
     println("Output: $result")
 
     result.parentFile.mkdirs()
-    val args: List<String> = listOf("pandoc", "-s") + pdfs.map { it.path }.toList() + listOf("-o", result.path)
+    val args: List<String> = listOf("convert") + pdfs.map { it.path }.toList() + listOf(result.path)
     println("Running command: " + args.joinToString("") { "\n    $it"})
 
     val code = ProcessBuilder()
         .command(args)
         .directory(result.parentFile)
+        .inheritIO()
         .start().waitFor()
 
     if (code != 0) error("Failed to run pandoc!")
 }
 
 private fun imagesToPdf(path: File, result: File) {
+    result.parentFile.mkdirs()
     val allImages = path.walkTopDown().filter { it.name.endsWith(".png", ".jpg", ".jpeg") }.toList()
     if (allImages.isEmpty()) return
 
     println("Merging: " + allImages.map { it.name }.toSortedSet().joinToString())
     println("Output: $result")
 
-    result.parentFile.mkdirs()
-    val args: List<String> = listOf("convert") + allImages.map { it.path }.toList() + listOf(result.path)
-    println("Running command: " + args.joinToString("") { "\n    $it"})
-
-    val code = ProcessBuilder()
-        .command(args)
-        .directory(path)
-        .start().waitFor()
-
-    if (code != 0) error("Failed to run convert!")
-}
-
-private fun docxToPdf(docx: File, pdf: File) {
-    println("Converting: " + docx + " to pdf:" + pdf)
-    pdf.parentFile.mkdirs()
-    val args: List<String> = listOf("pandoc", docx.path, "-o", pdf.path)
-    println("Running command: " + args.joinToString("") { "\n    $it"})
-
-    val code = ProcessBuilder()
-        .command(args)
-        .directory(docx.parentFile)
-        .inheritIO()
-        .start().waitFor()
-
-    if (code != 0) error("Failed to run pandoc!")
+    return mergePdf(allImages, result)
 }
 
 private fun download() {

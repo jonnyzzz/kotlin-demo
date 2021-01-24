@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 plugins {
   `java-library`
   kotlin("jvm") version "1.4.21"
+  kotlin("plugin.serialization") version "1.4.21"
 }
 
 allprojects {
@@ -22,17 +23,19 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+
   implementation("com.intellij:annotations:12.0")
   implementation("org.jetbrains.kotlin:kotlin-script-runtime")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-  implementation("com.fasterxml.jackson.core:jackson-core:2.9.1")
-  implementation("com.fasterxml.jackson.core:jackson-annotations:2.9.1")
-  implementation("com.fasterxml.jackson.core:jackson-databind:2.9.1")
+  implementation("com.fasterxml.jackson.core:jackson-core:2.12.1")
+  implementation("com.fasterxml.jackson.core:jackson-annotations:2.12.1")
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.12.1")
 
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.2")
 
   implementation("org.jdom:jdom2:2.0.6")
   implementation("org.jonnyzzz.kotlin.xml.bind:api:0.1.9")
@@ -40,7 +43,7 @@ dependencies {
   implementation("org.jonnyzzz.kotlin.xml.dsl:api:0.1.6")
   implementation("org.jonnyzzz.kotlin.xml.dsl:jdom:0.1.6")
 
-  val ktor_version = "1.4.0"
+  val ktor_version = "1.5.0"
   implementation("io.ktor:ktor-server-netty:$ktor_version")
   implementation("io.ktor:ktor-html-builder:$ktor_version")
   implementation("io.ktor:ktor-locations:$ktor_version")
@@ -50,5 +53,8 @@ dependencies {
   implementation("junit:junit:4.12")
 
   testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
+
+  implementation("org.apache.commons:commons-csv:1.8")
+  implementation("com.squareup.okhttp3:okhttp:4.9.0")
 }
 
