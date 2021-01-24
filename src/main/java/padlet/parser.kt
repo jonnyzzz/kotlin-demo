@@ -8,16 +8,18 @@ import java.io.File
 
 val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche3.csv"
 val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w3")
-val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen")
+val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht")
 
 fun main() {
+    download()
+
     for (day in weekDays) {
         processDay(File(padDir, day))
     }
 }
 
 private fun processDay(dayRoot: File) {
-    val targetRoot = File("$dayRoot-merged")
+    val targetRoot = File(dayRoot.parent + "-merged", dayRoot.name)
     targetRoot.deleteRecursively()
 
     val mergedDocX = File(targetRoot, "all.docx")
