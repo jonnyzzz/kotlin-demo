@@ -6,13 +6,14 @@ import okio.buffer
 import okio.sink
 import java.io.File
 
-val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche3.csv"
-val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w3")
-val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht")
+val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche4.csv"
+val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w4")
+val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht", "Zusatzaufgaben ***", "Geburtagskinder")
 
 fun main() {
 //    download()
 
+//    return
     for (day in weekDays) {
         val dayRoot = File(padDir, day)
         if (dayRoot.isDirectory) {
@@ -57,7 +58,7 @@ private fun processDay(dayRoot: File) {
     targetRoot.mkdirs()
 
     val imagesPdf = File(targetRoot, "images.pdf")
-    val rootPdf = File(targetRoot, "all-merged.pdf")
+    val rootPdf = File(targetRoot.path + ".pdf")
 
     val convertedPdfsRoot = File(targetRoot, "docx2pdf")
     val allDocX = dayRoot.walkTopDown()
@@ -149,7 +150,7 @@ private fun download() {
 
         println("Downloading Attachments for $day:")
         for (link in allLinks) {
-            if (link.endsWith(".jpeg", ".png", "docx", ".pdf")) {
+            if (link.endsWith(".jpg", ".jpeg", ".png", "docx", ".pdf")) {
                 val linkFile = File(File(padDir, day), link.substringAfterLast("/"))
                 linkFile.parentFile?.mkdirs()
 
