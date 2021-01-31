@@ -12,3 +12,19 @@ fun example1() {
 
 }
 
+
+fun exampleInf() {
+    val seq = sequence<Int> {
+        while(true) { (1..100).random() }
+    }
+
+    /// option 1
+    seq.map { it * it }
+
+    /// option 2
+    seq.asSequence().map { it * it }
+}
+
+fun main() {
+    exampleInf()
+}
