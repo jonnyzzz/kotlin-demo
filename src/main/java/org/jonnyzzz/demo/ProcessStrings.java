@@ -1,4 +1,4 @@
-package _tasks;
+package org.jonnyzzz.demo;
 
 import java.util.ArrayList;
 import java.util.List;

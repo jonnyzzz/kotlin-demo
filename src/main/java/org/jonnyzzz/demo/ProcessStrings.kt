@@ -1,4 +1,6 @@
-package _tasks
+@file:Suppress("PackageDirectoryMismatch")
+
+package org.jonnyzzz.demo.processStrings
 
 import java.util.stream.Collectors
 
