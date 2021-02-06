@@ -2,22 +2,23 @@ package padlet
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.internal.toHexString
 import okio.buffer
 import okio.sink
 import java.io.File
 
-val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche4.csv"
-val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w4")
-val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht", "Zusatzaufgaben ***", "Geburtagskinder")
+val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche5.csv"
+val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w5")
+val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht", "Zusatzaufgaben ***", "Geburtagskinder", "Zusatz leicht", "Zusatz * * *")
 
 fun main() {
 //    download()
-
+//
 //    return
-    for (day in weekDays) {
+    for ((idx, day) in weekDays.withIndex()) {
         val dayRoot = File(padDir, day)
         if (dayRoot.isDirectory) {
-            processDay(dayRoot)
+            processDay(1+idx, dayRoot)
         }
     }
 }
@@ -52,13 +53,13 @@ private fun docxToPdf2(docx: File, pdf: File) {
     }
 }
 
-private fun processDay(dayRoot: File) {
+private fun processDay(idx: Int, dayRoot: File) {
     val targetRoot = File(dayRoot.parent + "-merged", dayRoot.name)
     targetRoot.deleteRecursively()
     targetRoot.mkdirs()
 
     val imagesPdf = File(targetRoot, "images.pdf")
-    val rootPdf = File(targetRoot.path + ".pdf")
+    val rootPdf = File(dayRoot.parent + "-merged", "" + idx.toHexString() + "-" + dayRoot.name + ".pdf")
 
     val convertedPdfsRoot = File(targetRoot, "docx2pdf")
     val allDocX = dayRoot.walkTopDown()
