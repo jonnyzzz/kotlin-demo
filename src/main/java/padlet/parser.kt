@@ -104,7 +104,7 @@ private fun mergePdf(pdfs: List<File>, result: File) {
 
 private fun imagesToPdf(path: File, result: File) {
     result.parentFile.mkdirs()
-    val allImages = path.walkTopDown().filter { it.name.endsWith(".png", ".jpg", ".jpeg") }.toList()
+    val allImages = path.walkTopDown().filter { it.name.endsWith(".png", ".jpg", ".jpeg", ".pdf") }.toList()
     if (allImages.isEmpty()) return
 
     println("Merging: " + allImages.map { it.name }.toSortedSet().joinToString())
@@ -167,7 +167,7 @@ private fun download() {
                         }
                     }
                 } else {
-                    println("Already exissts $link... in ${linkFile.name}")
+                    println("Already exists $link... in ${linkFile.name}")
                 }
             } else {
                 println("Ignoring $link")
