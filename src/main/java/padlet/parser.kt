@@ -2,25 +2,30 @@ package padlet
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.internal.toHexString
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.util.concurrent.atomic.AtomicInteger
 
-val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche5.csv"
-val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w5")
-val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht", "Zusatzaufgaben ***", "Geburtagskinder", "Zusatz leicht", "Zusatz * * *")
+val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche6.csv"
+val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w6")
+
+val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht", "Zusatzaufgaben ***", "Geburtagskinder", "Zusatz leicht", "Zusatz * * *", "Zusatz ***")
+
+val extensionDocX = ".docx"
+val extensionsToDownload = listOf(".jpg", ".jpeg", ".png", extensionDocX, ".pdf")
 
 fun main() {
 //    download()
 //
 //    return
-    for ((idx, day) in weekDays.withIndex()) {
-        val dayRoot = File(padDir, day)
-        if (dayRoot.isDirectory) {
+
+    padDir.listFiles()!!
+        .filter { it.isDirectory }
+        .sortedBy { it.name.toLowerCase() }
+        .forEachIndexed { idx, dayRoot ->
             processDay(1+idx, dayRoot)
         }
-    }
 }
 
 private fun docxToPdf2(docx: File, pdf: File) {
@@ -58,59 +63,45 @@ private fun processDay(idx: Int, dayRoot: File) {
     targetRoot.deleteRecursively()
     targetRoot.mkdirs()
 
-    val imagesPdf = File(targetRoot, "images.pdf")
-    val rootPdf = File(dayRoot.parent + "-merged", "" + idx.toHexString() + "-" + dayRoot.name + ".pdf")
+    val rootPdf = File(dayRoot.parent + "-merged", "" + idx.toString().padStart(2, '0') + "-" + dayRoot.name + ".pdf")
 
     val convertedPdfsRoot = File(targetRoot, "docx2pdf")
     val allDocX = dayRoot.walkTopDown()
-        .filter { it.isFile && it.name.endsWith(".docx") }
+        .filter { it.isFile && it.name.endsWith(extensionDocX) }
         .toList()
         .associateWith { docx ->
-            runCatching {
-                val pdf = File(convertedPdfsRoot, docx.name + ".pdf")
-                pdf.parentFile.mkdirs()
-                if (!pdf.isFile) {
-                    println("Converting to PDF: $docx ...")
-                    docxToPdf2(docx, pdf)
-                } else {
-                    println("Converting to PDF: $docx  [UP-TO-DATE]")
-                }
-                pdf
-            }.getOrNull()
+            val pdf = File(convertedPdfsRoot, docx.name + ".pdf")
+            pdf.parentFile.mkdirs()
+            if (!pdf.isFile) {
+                println("Converting to PDF: $docx ...")
+                docxToPdf2(docx, pdf)
+            } else {
+                println("Converting to PDF: $docx  [UP-TO-DATE]")
+            }
+            pdf
         }
 
-    imagesToPdf(dayRoot, imagesPdf)
+    val allToMerge = dayRoot.walkTopDown()
+        .filter { it.isFile && !it.name.endsWith(extensionDocX) }.toList() + allDocX.values
 
-    val allPdfsToMerge = allDocX.values + imagesPdf.takeIf { it.isFile }
-    mergePdf(allPdfsToMerge.filterNotNull(), rootPdf)
+    mergePdf(allToMerge.sortedBy { it.name }, rootPdf)
 }
 
-private fun mergePdf(pdfs: List<File>, result: File) {
-    println("Merging: " + pdfs.map { it.name }.toSortedSet().joinToString())
-    println("Output: $result")
+private fun mergePdf(files: List<File>, resultPdf: File) {
+    println("Merging: " + files.map { it.name }.toSortedSet().joinToString())
+    println("Output: $resultPdf")
 
-    result.parentFile.mkdirs()
-    val args: List<String> = listOf("convert") + pdfs.map { it.path }.toList() + listOf(result.path)
+    resultPdf.parentFile.mkdirs()
+    val args: List<String> = listOf("convert") + files.map { it.path }.toList() + listOf(resultPdf.path)
     println("Running command: " + args.joinToString("") { "\n    $it"})
 
     val code = ProcessBuilder()
         .command(args)
-        .directory(result.parentFile)
+        .directory(resultPdf.parentFile)
         .inheritIO()
         .start().waitFor()
 
     if (code != 0) error("Failed to run pandoc!")
-}
-
-private fun imagesToPdf(path: File, result: File) {
-    result.parentFile.mkdirs()
-    val allImages = path.walkTopDown().filter { it.name.endsWith(".png", ".jpg", ".jpeg", ".pdf") }.toList()
-    if (allImages.isEmpty()) return
-
-    println("Merging: " + allImages.map { it.name }.toSortedSet().joinToString())
-    println("Output: $result")
-
-    return mergePdf(allImages, result)
 }
 
 private fun download() {
@@ -133,7 +124,7 @@ private fun download() {
             if (currentDay != null) {
                 planPerDay.getValue(currentDay).add(line)
             } else {
-                println("IGNORED: $line")
+                error("The line: $line was not processed")
             }
         }
         planPerDay
@@ -143,6 +134,8 @@ private fun download() {
     padDir.mkdirs()
 
     for ((day, data) in sections) {
+        val count = AtomicInteger(0)
+
         println("================")
         println("Day: $day")
 
@@ -150,9 +143,15 @@ private fun download() {
             data.flatMap { it.split(",") }.map { it.trim() }.filter { it.startsWith("http") }.toSortedSet()
 
         println("Downloading Attachments for $day:")
+
         for (link in allLinks) {
-            if (link.endsWith(".jpg", ".jpeg", ".png", "docx", ".pdf")) {
-                val linkFile = File(File(padDir, day), link.substringAfterLast("/"))
+            if (link.endsWith(*extensionsToDownload.toTypedArray())) {
+                val linkFile = File(
+                    File(padDir, weekDays.indexOf(day).toString().padStart(2, '0') + "_" + day),
+                    count.incrementAndGet().toString().padStart(3, '0') + "_" +
+                            link.substringAfterLast("/")
+                )
+
                 linkFile.parentFile?.mkdirs()
 
                 if (!linkFile.isFile) {
@@ -169,9 +168,16 @@ private fun download() {
                 } else {
                     println("Already exists $link... in ${linkFile.name}")
                 }
-            } else {
-                println("Ignoring $link")
+                continue
             }
+
+            if (link.contains("learningapps.org", ignoreCase = true)) continue
+            if (link.contains("youtube", ignoreCase = true)) continue
+            if (link.contains("youtu.be", ignoreCase = true)) continue
+            if (link.endsWith(".mp3", ignoreCase = true)) continue
+            if (link.contains("bookcreator.com", ignoreCase = true)) continue
+            if (link.contains("bing.com/videos", ignoreCase = true)) continue
+            error("Ignoring $link")
         }
     }
 }
