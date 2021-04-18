@@ -1,24 +1,23 @@
 package padlet
 
+import com.opencsv.CSVReader
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
-val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche6.csv"
-val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-w6")
-
-val weekDays = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Lösungen", "Zusatzaufgaben leicht", "Zusatzaufgaben ***", "Geburtagskinder", "Zusatz leicht", "Zusatz * * *", "Zusatz ***")
+val padletCSV = "/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/1b_woche_n1.csv"
+val padDir = File("/Users/jonnyzzz/Work/kotlin-demo/src/main/java/padlet/data-n1")
 
 val extensionDocX = ".docx"
 val extensionsToDownload = listOf(".jpg", ".jpeg", ".png", extensionDocX, ".pdf")
+val weekDaysOrder = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag")
 
 fun main() {
 //    download()
-//
-//    return
 
     padDir.listFiles()!!
         .filter { it.isDirectory }
@@ -106,28 +105,33 @@ private fun mergePdf(files: List<File>, resultPdf: File) {
 
 private fun download() {
     val sections = run {
-        val text = File(padletCSV).readText()
-        val allLines = text.split("\n")
+        val allRows = File(padletCSV).reader().use {
+            CSVReader(it).readAll()
+        }.filter { it.isNotEmpty() }
 
-        val planPerDay = weekDays.map { it to mutableListOf<String>() }.toMap()
+        val weekDays = mutableMapOf<String, MutableSet<String>>()
 
         var currentDay: String? = null
-        for (line in allLines) {
-            if (line.trim().isBlank()) continue
+        for (line in allRows) {
 
-            val nextDay = weekDays.singleOrNull { it.equals(line.trim(), ignoreCase = true) }
-            if (nextDay != null) {
-                currentDay = nextDay
+            if (line.size == 1) {
+                currentDay = line.single()
                 continue
             }
 
-            if (currentDay != null) {
-                planPerDay.getValue(currentDay).add(line)
-            } else {
-                error("The line: $line was not processed")
+            requireNotNull(currentDay) {
+                "The line: $line has no day"
             }
+
+            weekDays
+                .computeIfAbsent(currentDay) { TreeSet() }
+                .addAll(
+                    line.flatMap { it.trim().split("\\n+\\s+".toRegex()) }
+                        .map { it.trim() }
+                        .filter { it.isNotBlank() }
+                )
         }
-        planPerDay
+        weekDays
     }
 
     val okHttp = OkHttpClient.Builder().build()
@@ -135,21 +139,29 @@ private fun download() {
 
     for ((day, data) in sections) {
         val count = AtomicInteger(0)
+        val dayId = weekDaysOrder.withIndex().firstOrNull { it.value.equals(day.trim(), ignoreCase = true) }?.index?.plus(1) ?: weekDaysOrder.size + 2
 
         println("================")
         println("Day: $day")
 
-        val allLinks =
-            data.flatMap { it.split(",") }.map { it.trim() }.filter { it.startsWith("http") }.toSortedSet()
+        val allLinks = data
+            .filter { it.startsWith("http://") || it.startsWith("https://") }
+            .toSortedSet()
 
-        println("Downloading Attachments for $day:")
+        println("Downloading Attachments for $day")
 
         for (link in allLinks) {
+            //this is the school book picture
+            if (link.contains("/Scan_20210108.png")) continue
+            if (link.contains("/Scan_20210114__2_.png")) continue
+            if (link.contains("/Scan_20210108__3_.png")) continue
+            if (link.contains("/1b_AH_M.png")) continue
+
+            println("Checking: $link")
             if (link.endsWith(*extensionsToDownload.toTypedArray())) {
                 val linkFile = File(
-                    File(padDir, weekDays.indexOf(day).toString().padStart(2, '0') + "_" + day),
-                    count.incrementAndGet().toString().padStart(3, '0') + "_" +
-                            link.substringAfterLast("/")
+                    File(padDir, "${dayId}-$day"),
+                    count.incrementAndGet().toString().padStart(3, '0') + "_" + link.substringAfterLast("/")
                 )
 
                 linkFile.parentFile?.mkdirs()
@@ -175,6 +187,7 @@ private fun download() {
             if (link.contains("youtube", ignoreCase = true)) continue
             if (link.contains("youtu.be", ignoreCase = true)) continue
             if (link.endsWith(".mp3", ignoreCase = true)) continue
+            if (link.endsWith(".", ignoreCase = true)) continue
             if (link.contains("bookcreator.com", ignoreCase = true)) continue
             if (link.contains("bing.com/videos", ignoreCase = true)) continue
             error("Ignoring $link")

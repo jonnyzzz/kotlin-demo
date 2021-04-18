@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
   `java-library`
-  kotlin("jvm") version "1.4.21"
-  kotlin("plugin.serialization") version "1.4.21"
+  kotlin("jvm") version "1.4.32"
+  kotlin("plugin.serialization") version "1.4.32"
 }
 
 allprojects {
@@ -56,5 +56,7 @@ dependencies {
 
   implementation("org.apache.commons:commons-csv:1.8")
   implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+  implementation("com.opencsv:opencsv:5.4")
 }
 
